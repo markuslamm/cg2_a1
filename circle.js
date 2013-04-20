@@ -38,12 +38,19 @@ define(["util", "vec2", "scene", "point_dragger"],
     Circle.prototype.isHit = function(context, position) {
     	var deltaX = this.center[0] - position[0];
     	var deltaY = this.center[1] - position[1];
-    	var isHit = deltaX * deltaX + deltaY * deltaY < this.radius * this.radius;
-    	console.log("circle hit?: [" + isHit + "]");
-    	if(isHit) {
+    	//var isHit = deltaX * deltaX + deltaY * deltaY < this.radius * this.radius;
+    	
+    
+    	var distance = Math.sqrt( (deltaX * deltaX) + (deltaY * deltaY) );
+    	console.log("distance from center: " + distance);
+    	var tolerance = 5;
+    	var hit = distance > (this.radius - tolerance) && distance < (this.radius + tolerance);
+    	
+    	console.log("circle hit?: [" + hit + "]");
+    	if(hit) {
     		console.log("circle hit: [" + position + "]");
     	}
-    	return isHit;
+    	return hit;
 	}
     
     Circle.prototype.createDraggers = function() {

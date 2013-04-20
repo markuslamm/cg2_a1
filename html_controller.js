@@ -11,8 +11,8 @@
 
  
 /* requireJS module definition */
-define(["jquery", "straight_line", "circle"], 
-       (function($, StraightLine, Circle) {
+define(["jquery", "straight_line", "circle", "parametric_curve"], 
+       (function($, StraightLine, Circle, ParametricCurve) {
 
     "use strict"; 
                 
@@ -59,7 +59,8 @@ define(["jquery", "straight_line", "circle"],
             return "#"+toHex2(r)+toHex2(g)+toHex2(b);
         };
         
-        $("#editArea").hide();
+        
+        editArea.hide();
         var selectCallback = function(obj) {
         	console.log("Invoking select callback");
         	selectedObject = obj;
@@ -68,14 +69,24 @@ define(["jquery", "straight_line", "circle"],
 			$("#stroke_color").attr("value", color);
 			$("#stroke_width").attr("value", stroke_width);
 			var isCircle = obj instanceof Circle;
+			var isParametricCurve = obj instanceof ParametricCurve;
 			if(isCircle) {
+				console.log("selected object is circle");
 				var radius = obj.radius;
 				console.log("Is circle: [" + isCircle + "], radius: [" + radius +"]");
 				$("#radiusSection").show();
 				$("#radius").attr("value", radius);
+				$("#curveSection").hide();
+			}
+			else if(isParametricCurve) {
+				console.log("selected object is parametric curve");
+				$("#radiusSection").hide();
+				$("#curveSection").show();
 			}
 			else {
+				console.log("selected object is straight line");
 				$("#radiusSection").hide();
+				$("#curveSection").hide();
 			}
 		};
 		
@@ -155,6 +166,18 @@ define(["jquery", "straight_line", "circle"],
             // deselect all objects, then select the newly created object
             sceneController.deselect();
             sceneController.select(circle); // this will also redraw
+            $("#editArea").show();         
+        }));
+        
+        $("#btnNewParametricCurve").click( (function() {
+            
+            // create the actual line and add it to the scene
+        	
+        	 var style = { 
+                     width: Math.floor(Math.random()*3)+1,
+                     color: randomColor()
+                 };
+        	var paramCurve = new ParametricCurve(null, null, 1, 10, 15, style);
             $("#editArea").show();         
         }));
         

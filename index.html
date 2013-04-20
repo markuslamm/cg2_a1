@@ -34,13 +34,15 @@
         If you see this text, your browser probably does not 
         support the HTML5 canvas 2D drawing context. 
     </canvas>
-
 		<div id="param_area">
-
 			<h3>Create Objects:</h3>
 			<button id="btnNewLine" type="button">New Line</button>
 			<br />
 			<button id="btnNewCircle" type="button">New Circle</button>
+			<br />
+			<button id="btnNewParametricCurve" type="button">New Parametric Curve</button>
+			<br />
+			<button id="btnNewBezierCurve" type="button">New Bezier Curve</button>
 			<br />
 			<div id="editArea">
 				<label for="stroke_color">Color:</label>
@@ -53,6 +55,20 @@
 					<label for="radius">Radius:</label>
 					<input type="number" name="radius" id="radius">
 					<br />
+				</div>
+				<div id="curveSection">
+					<label for="xFunction">x(t):</label>
+					<input type="text" name="xFunction" id="xFunction">
+					<br />
+					<label for="yFunction">y(t):</label>
+					<input type="text" name="yFunction" id="yFunction">
+					<br />
+					<label for="tMin">Min t:</label>
+					<input type="number" name="tMin" id="tMin">
+					<label for="tMax">Max t:</label>
+					<input type="number" name="tMax" id="tMax">
+					<label for="segments">Segments:</label>
+					<input type="number" name="segments" id="segments">
 				</div>
 			</div>
 		</div>
