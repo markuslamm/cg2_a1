@@ -23,7 +23,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 				/*
 				 * UI elements
 				 */
-				
+
 				var commonSection = $("#commonSection");
 				var strokeWidth = $("#stroke_width");
 				var strokeColor = $("#stroke_color");
@@ -36,7 +36,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 				var yFunction = $("#yFunction");
 				var tMin = $("#tMin");
 				var tMax = $("#tMax");
-				var segments = $("segments");
+				var segments = $("#segments");
 
 				commonSection.hide();
 				radiusSection.hide();
@@ -116,26 +116,53 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 				strokeColor.change(function() {
 					var selectedObject = sceneController.getSelectedObject();
 					var newColorValue = strokeColor.attr("value");
-					console.log("new color value: [" + newColorValue + "]");
+					console.log("new color value: " + newColorValue);
 					selectedObject.lineStyle.color = newColorValue;
 					sceneController.select(selectedObject);
 				});
-				
+
 				strokeWidth.change(function() {
 					var selectedObject = sceneController.getSelectedObject();
 					var newWidthValue = strokeWidth.attr("value");
-					console.log("new width value: [" + newWidthValue + "]");
+					console.log("new width value: " + newWidthValue);
 					selectedObject.lineStyle.width = newWidthValue;
 					sceneController.select(selectedObject);
 				});
-				
+
 				radius.change(function() {
 					var selectedObject = sceneController.getSelectedObject();
 					var newRadius = radius.attr("value");
-					console.log("new radius value: [" + newRadius + "]");
+					console.log("new radius value: " + newRadius);
 					selectedObject.radius = newRadius;
 					sceneController.select(selectedObject);
 				});
+				
+				tMin.change(function() {
+					var selectedObject = sceneController.getSelectedObject();
+					var newValue = parseInt(tMin.attr("value"));
+					console.log("new tMin value: " + newValue);
+					selectedObject.tMin = newValue;
+					sceneController.select(selectedObject);
+				});
+				
+				tMax.change(function() {
+					var selectedObject = sceneController.getSelectedObject();
+					var newValue = parseInt(tMax.attr("value"));
+					console.log("new tMax value: " + newValue);
+					selectedObject.tMax = newValue;
+					sceneController.select(selectedObject);
+				});
+				
+				segments.change(function() {
+					var selectedObject = sceneController.getSelectedObject();
+					var newValue = parseInt(segments.attr("value"));
+					console.log("new segments value: " + newValue);
+					selectedObject.segments = newValue;
+					sceneController.select(selectedObject);
+				});
+				
+				/*
+
 
 				/*
 				 * event handler for "new line button".
@@ -178,19 +205,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 
 				$("#btnNewParametricCurve").click((function() {
 					// initial values
-					var style = { width : Math.floor(Math.random() * 3) + 1, color : randomColor()
-					};
-
-					/*
-					 * Initial values for curve
-					 */
-					// var f_Function = function() { return return 350 + 100 *
-					// Math.sin(t); };
-					// var g_Function = function() { return return 150 + 100 *
-					// Math.cos(t); };
-					// var tMin = 0;
-					// var tMax = 2 * Math.PI;
-					// var segments = 20;
+					var style = { width : Math.floor(Math.random() * 3) + 1, color : randomColor() };
 					var paramCurve = new ParametricCurve(style);
 					scene.addObjects([ paramCurve ]);
 					sceneController.deselect();
