@@ -58,17 +58,21 @@
 				</div>
 				<div id="curveSection">
 					<label for="xFunction">x(t):</label>
-					<input type="text" name="xFunction" id="xFunction">
+					<input type="text" name="xFunction" id="xFunction" value="250 + 100 * Math.sin(t)">
 					<br />
 					<label for="yFunction">y(t):</label>
-					<input type="text" name="yFunction" id="yFunction">
+					<input type="text" name="yFunction" id="yFunction" value="100 + 100 * Math.cos(t)">
 					<br />
 					<label for="tMin">Min t:</label>
-					<input type="number" name="tMin" id="tMin">
+					<input type="number" name="tMin" id="tMin" value="0">
+					<br />
 					<label for="tMax">Max t:</label>
-					<input type="number" name="tMax" id="tMax">
+					<input type="number" name="tMax" id="tMax" value="10">
+					<br />
 					<label for="segments">Segments:</label>
-					<input type="number" name="segments" id="segments">
+					<input type="number" name="segments" id="segments" value="20">
+					<br />
+					<button id="btnPlotCurve" type="button">plot curve</button>
 				</div>
 			</div>
 		</div>
