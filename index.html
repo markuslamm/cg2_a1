@@ -44,24 +44,25 @@
 			<br />
 			<button id="btnNewBezierCurve" type="button">New Bezier Curve</button>
 			<br />
-			<div id="editArea">
+			<div id="commonSection">
 				<label for="stroke_color">Color:</label>
 				<input type="color" name="stroke_color" id="stroke_color">
 				<br />
 				<label for="stroke_width">Width:</label>
 				<input type="number" name="stroke_width" id="stroke_width">
 				<br />
-				<div id="radiusSection">
+			</div>
+			<div id="radiusSection">
 					<label for="radius">Radius:</label>
 					<input type="number" name="radius" id="radius">
 					<br />
 				</div>
-				<div id="curveSection">
+			<div id="curveSection">
 					<label for="xFunction">x(t):</label>
-					<input type="text" name="xFunction" id="xFunction" value="250 + 100 * Math.sin(t)">
+					<input type="text" name="xFunction" id="xFunction">
 					<br />
 					<label for="yFunction">y(t):</label>
-					<input type="text" name="yFunction" id="yFunction" value="100 + 100 * Math.cos(t)">
+					<input type="text" name="yFunction" id="yFunction">
 					<br />
 					<label for="tMin">Min t:</label>
 					<input type="number" name="tMin" id="tMin" value="0">
@@ -74,7 +75,6 @@
 					<br />
 					<button id="btnPlotCurve" type="button">plot curve</button>
 				</div>
-			</div>
 		</div>
 
 		<div style="float: clear;"></div>
