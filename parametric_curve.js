@@ -21,8 +21,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		this.tMin = 0;
 		this.tMax = 2 * Math.PI;
 		this.segments = 10;
-		this.lineStyle = lineStyle || { width : "2", color : "#0000AA"
-		};
+		this.lineStyle = lineStyle || { width : "2", color : "#0000AA" };
 	};
 
 	ParametricCurve.prototype.draw = function(context) {

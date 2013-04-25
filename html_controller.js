@@ -10,8 +10,8 @@
  */
 
 /* requireJS module definition */
-define([ "jquery", "straight_line", "circle", "parametric_curve" ],
-		(function($, StraightLine, Circle, ParametricCurve) {
+define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve" ],
+		(function($, StraightLine, Circle, ParametricCurve, BezierCurve) {
 
 			"use strict";
 			/*
@@ -36,10 +36,21 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 				var tMin = $("#tMin");
 				var tMax = $("#tMax");
 				var segments = $("#segments");
+				
+				var bezierSection = $("#bezierSection");
+				var controlPoint1X = $("#point1X");
+				var controlPoint1Y = $("#point1Y");
+				var controlPoint2X = $("#point2X");
+				var controlPoint2Y = $("#point2Y");
+				var controlPoint3X = $("#point3X");
+				var controlPoint3Y = $("#point3Y");
+				var controlPoint4X = $("#point4X");
+				var controlPoint4Y = $("#point4Y");
 
 				commonSection.hide();
 				radiusSection.hide();
 				curveSection.hide();
+				bezierSection.hide();
 
 				/*
 				 * callback when object is selected
@@ -58,6 +69,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 					var buildLineSection = function() {
 						radiusSection.hide();
 						curveSection.hide();
+						bezierSection.hide();
 					}
 
 					/*
@@ -66,6 +78,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 					var buildCircleSection = function() {
 						radiusSection.show();
 						curveSection.hide();
+						bezierSection.hide();
 						radius.attr("value", selectedObject.radius);
 					};
 
@@ -75,6 +88,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 					var buildCurveSection = function() {
 						radiusSection.hide();
 						curveSection.show();
+						bezierSection.hide();
 						var f_FuncString = selectedObject.f_Function.toString();
 						var g_FuncString = selectedObject.g_Function.toString();
 						console.log("f(t): " + f_FuncString);
@@ -85,6 +99,20 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 						tMin.attr("value", selectedObject.tMin);
 						tMax.attr("value", selectedObject.tMax);
 						segments.attr("value", selectedObject.segments);
+					};
+					
+					var buildBezierSection = function() {
+						radiusSection.hide();
+						curveSection.hide();
+						bezierSection.show();
+						controlPoint1X.attr("value", selectedObject.p0[0]);
+						controlPoint1Y.attr("value", selectedObject.p0[1]);
+						controlPoint2X.attr("value", selectedObject.p1[0]);
+						controlPoint2Y.attr("value", selectedObject.p1[1]);
+						controlPoint3X.attr("value", selectedObject.p2[0]);
+						controlPoint3Y.attr("value", selectedObject.p2[1]);
+						controlPoint4X.attr("value", selectedObject.p3[0]);
+						controlPoint4Y.attr("value", selectedObject.p3[1]);
 					};
 
 					/*
@@ -101,6 +129,11 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 					else if (selectedObject instanceof ParametricCurve) {
 						console.log("ParametricCurve selected ");
 						buildCurveSection();
+
+					}
+					else if (selectedObject instanceof BezierCurve) {
+						console.log("BezierCurve selected ");
+						buildBezierSection();
 
 					}
 					else {
@@ -210,6 +243,23 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 					sceneController.deselect();
 					sceneController.select(paramCurve);
 				}));
+				
+				$("#btnNewBezierCurve").click((function() {
+					// initial values
+					var style = { width : Math.floor(Math.random() * 3) + 1, color : randomColor() };
+					var controlPoint1 = [20, 20];
+					var controlPoint2 = [200, 20];
+					var controlPoint3 = [20, 200];
+					var controlPoint4 = [200, 200];
+					
+					var initPoints = [controlPoint1, controlPoint2, controlPoint3, controlPoint4];
+					
+					var bezierCurve = new BezierCurve(initPoints, style);
+					scene.addObjects([bezierCurve]);
+					sceneController.deselect();
+					sceneController.select(bezierCurve);
+				}));
+
 
 				// generate random X coordinate within the canvas
 				var randomX = function() {
