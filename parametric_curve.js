@@ -26,6 +26,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 	};
 
 	ParametricCurve.prototype.draw = function(context) {
+
 //		console.log("ParametricCurve.prototype.draw()");
 //		var segmentLength = Math.abs((this.tMin - this.tMax) / this.segments);
 //		var startPoint = [ this.f_Function(this.tMin), this.g_Function(this.tMax) ];
@@ -57,7 +58,6 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		
 		var delta = Math.abs(this.tMin - this.tMax);
 		var i = 1;
-	
         context.beginPath();
         context.moveTo(this.f_Function((delta/this.segments) * (i - 1)),
 					   this.g_Function((delta/this.segments) * (i - 1)));
@@ -69,17 +69,12 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 			context.lineTo(point[0], point[1]);
 			
 		}
-  
         context.lineWidth = this.lineStyle.width;
         context.strokeStyle = this.lineStyle.color;
-        
         context.stroke(); 
-  
         context.lineWidth = this.lineStyle.width;
         context.strokeStyle = this.lineStyle.color;
-        
         context.stroke(); 
-
 	};
 
 	ParametricCurve.prototype.isHit = function(context, position) {

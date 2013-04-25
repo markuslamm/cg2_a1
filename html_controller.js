@@ -23,7 +23,6 @@ define([ "jquery", "straight_line", "circle", "parametric_curve" ],
 				/*
 				 * UI elements
 				 */
-
 				var commonSection = $("#commonSection");
 				var strokeWidth = $("#stroke_width");
 				var strokeColor = $("#stroke_color");
