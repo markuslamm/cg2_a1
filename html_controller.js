@@ -89,10 +89,8 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 						radiusSection.hide();
 						curveSection.show();
 						bezierSection.hide();
-						var f_FuncString = selectedObject.f_Function.toString();
-						var g_FuncString = selectedObject.g_Function.toString();
-						console.log("f(t): " + f_FuncString);
-						console.log("g(t): " + g_FuncString);
+						var f_FuncString = selectedObject.xFunctionString;
+						var g_FuncString = selectedObject.yFunctionString;
 
 						xFunction.attr("value", f_FuncString);
 						yFunction.attr("value", g_FuncString);
@@ -167,6 +165,23 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 					console.log("new radius value: " + newRadius);
 					selectedObject.radius = newRadius;
 					sceneController.select(selectedObject);
+				});
+				
+				xFunction.change(function() {
+					var selectedObject = sceneController.getSelectedObject();
+					var newXFunc = xFunction.attr("value");
+					console.log("new xFunction value: " + newXFunc);
+					selectedObject.xFunctionString = newXFunc;
+					sceneController.select(selectedObject);
+				});
+				
+				yFunction.change(function() {
+					var selectedObject = sceneController.getSelectedObject();
+					var newYFunc = yFunction.attr("value");
+					console.log("new yFunction value: " + newYFunc);
+					selectedObject.yFunctionString = newYFunc;
+					sceneController.select(selectedObject);
+					
 				});
 				
 				tMin.change(function() {
