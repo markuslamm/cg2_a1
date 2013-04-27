@@ -35,7 +35,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 			var xVal = this.f_Function(i * delta + this.tMin);
 			var yVal = this.g_Function(i * delta + this.tMin);
 			points[i] = [xVal, yVal];
-			console.log("calculated point: " + points[i]);
+			//console.log("calculated point: " + points[i]);
 		}
 		console.log("Points on curve: " + points.length);
 		//draw curve on canvas
@@ -43,7 +43,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		//init start point
 		context.moveTo(points[0][0], points[0][1]);
 		for(var i = 1; i < points.length; i++) {
-			console.log("Drawing point: " + points[i]);
+			//console.log("Drawing point: " + points[i]);
 			context.lineTo(points[i][0],points[i][1]);
 		}
 		context.lineWidth = this.lineStyle.width;
@@ -52,13 +52,32 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 	};
 
 	ParametricCurve.prototype.isHit = function(context, position) {
-		console.log("ParametricCurve.prototype.isHit()");
+		var delta = Math.abs(this.tMin - this.tMax) / this.segments;
+		for(var i = 0; i <= this.segments; i++) {
+			var point0 = [this.f_Function(i * delta + this.tMin), this.g_Function(i * delta + this.tMin)];
+			var point1 = [this.f_Function((i + 1) * delta + this.tMin), this.g_Function((i + 1)  * delta + this.tMin)];
+			/*
+			 * TAKEN FROM STAIGHT LINE 
+			 */
+			var t = vec2.projectPointOnLine(position, point0, point1);
+			// outside the line segment?
+			if(t < 0.0 || t > 1.0) {
+				continue; 
+			}
+			// coordinates of the projected point 
+			var p = vec2.add(point0, vec2.mult( vec2.sub(point1,point0), t ));
+			// distance of the point from the line
+			var d = vec2.length(vec2.sub(p,position));
+			// allow 2 pixels extra "sensitivity"
+			var tolerance = 3;
+			return d <= (this.lineStyle.width/2) + tolerance;
+		}
+		return false;
 	};
 
 	ParametricCurve.prototype.createDraggers = function() {
 		var draggers = [];
 		return draggers;
-
 	};
 
 	return ParametricCurve;
