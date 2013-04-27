@@ -10,7 +10,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		console.log("creating ParametricCurve.");
 		this.tMin = 0;
 		this.tMax = 2 * Math.PI;
-		this.segments = 10;
+		this.segments = 20;
 		this.lineStyle = lineStyle || { width : "2", color : "#0000AA" };
 		this.xFunctionString = "350 + 100 * Math.sin(t)";
 		this.yFunctionString = "150 + 100 * Math.cos(t)";
