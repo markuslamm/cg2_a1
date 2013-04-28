@@ -18,35 +18,73 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		this.yFunctionString = "150 + 100 * Math.cos(t)";
 		this.xFunction = this.Func(this.xFunctionString);
 		this.yFunction = this.Func(this.yFunctionString);
+		this.showTickmarks = false;
 	};
 
 	ParametricCurve.prototype.draw = function(context) {
 		// console.log("xFunction: " + this.xFunction.toString());
 		// console.log("yFunction: " + this.yFunction.toString());
-		// interval length [tMin, tMax]
+		/* interval length [tMin, tMax] */
 		var intervalLength = Math.abs(this.tMin - this.tMax);
-		// increment of t, "length" of segment
+		/* increment of t, "length" of segment */
 		var delta = intervalLength / this.segments;
 		var points = [];
-		// calculate x, y for every point on curve
+		/* calculate x, y for every point on curve */
 		for ( var i = 0; i <= this.segments; i++) {
 			var xVal = this.xFunction(i * delta + this.tMin);
 			var yVal = this.yFunction(i * delta + this.tMin);
 			points[i] = [ xVal, yVal ];
-			// console.log("calculated point: " + points[i]);
 		}
-		// console.log("Points on curve: " + points.length);
-		// draw curve on canvas
+		/* draw curve on canvas */
 		context.beginPath();
-		// init start point
+		/* init start point */
 		context.moveTo(points[0][0], points[0][1]);
 		for ( var i = 1; i < points.length; i++) {
-			// console.log("Drawing point: " + points[i]);
 			context.lineTo(points[i][0], points[i][1]);
 		}
 		context.lineWidth = this.lineStyle.width;
 		context.strokeStyle = this.lineStyle.color;
 		context.stroke();
+		
+		if(this.showTickmarks) {
+			/* draw tickmarks on curve */
+			context.beginPath();
+			for (var i = 1; i < this.segments; i++) {
+				var tang =  vec2.sub(points[(i+1)], points[(i-1)]) ;
+				var tangNorm = [tang[1] * (-1), tang[0]];
+
+				var normalizedVecN = vec2.mult(tangNorm, (1 / vec2.length(tangNorm)));
+				var pTick0 =  vec2.add(points[i], vec2.mult(normalizedVecN, 10));
+				var pTick1 =  vec2.sub(points[i], vec2.mult(normalizedVecN, 10));
+
+				context.moveTo(pTick0[0],pTick0[1]);
+				context.lineTo(pTick1[0],pTick1[1]);
+//				var vecTangent =  vec2.sub(points[(i+1)], points[(i-1)]) ;
+//				var vecNorm = [-vecTangent[1], vecTangent[0]];
+//				var vecNormalized = vec2.mult(vecNorm, (1 / vec2.length(vecNorm)));
+//				var tickPoint0 =  vec2.add(points[i], vec2.mult(vecNormalized, 15));
+//				var tickPoint1 =  vec2.sub(points[i], vec2.mult(vecNormalized, 15));
+//				context.moveTo(tickPoint0[0],tickPoint0[1]);
+//				context.lineTo(tickPoint0[0],tickPoint0[1]);
+				
+				
+//				console.log("current point: " + points[i]);
+//				var tangentVec = vec2.sub(points[(i+1)], points[(i-1)]) ;
+//				console.log("tangentVec: " + tangentVec);
+//				var orthogonalVec = [-tangentVec[1], tangentVec[0]];
+//				console.log("orthogonalVec: " + orthogonalVec);
+//				var normalizedVec = vec2.mult(orthogonalVec, (1 / vec2.length(orthogonalVec)));
+//				console.log("normalizedVec: " + normalizedVec);
+//				var tickPoint0 = vec2.add(points[i], vec2.mult(normalizedVec, 10));
+//				var tickPoint1 = vec2.sub(points[i], vec2.mult(normalizedVec, 10));
+//				context.moveTo(tickPoint0[0],tickPoint0[1]);
+//				context.lineTo(tickPoint1[0],tickPoint1[1]);
+			}
+			context.lineWidth = 1;
+			context.strokeStyle = "#000000";
+			context.stroke();
+			
+		}
 	};
 
 	ParametricCurve.prototype.isHit = function(context, position) {

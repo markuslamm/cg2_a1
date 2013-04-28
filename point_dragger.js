@@ -41,7 +41,7 @@ define(["util", "scene"],
      * 
      */
 
-    var PointDragger = function(getPos, setPos, drawStyle) {
+    var PointDragger = function(getPos, setPos, drawStyle, label) {
 
         // remember the callbacks
         this.getPos = getPos;
@@ -54,6 +54,9 @@ define(["util", "scene"],
         this.drawStyle.width = drawStyle.width || 2;
         this.drawStyle.color = drawStyle.color || "#ff0000";
         this.drawStyle.fill = drawStyle.fill || false;
+        if(label) {
+        	this.label = label;
+        }
         
         // attribute queried by SceneController to recognize draggers
         this.isDragger = true; 
@@ -86,6 +89,13 @@ define(["util", "scene"],
             context.fill();
         };
         context.stroke();
+        
+        //Label for point
+        if(this.label) {
+        	context.fillStyle = "#000000";
+        	context.font = "12px sans-serif"; // Define a font
+        	context.fillText(this.label, pos[0] + this.drawStyle.radius + 5 ,pos[1]);
+        }
     };
 
     /* 

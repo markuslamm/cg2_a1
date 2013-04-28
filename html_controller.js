@@ -36,6 +36,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 		var tMin = $("#tMin");
 		var tMax = $("#tMax");
 		var segments = $("#segments");
+		var tickmarks = $("#tickmarks");
 
 		var bezierSection = $("#bezierSection");
 		var controlPoint1X = $("#point1X");
@@ -97,6 +98,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 				tMin.attr("value", selectedObject.tMin);
 				tMax.attr("value", selectedObject.tMax);
 				segments.attr("value", selectedObject.segments);
+				tickmarks.attr('checked', selectedObject.showTickmarks);
 			};
 
 			var buildBezierSection = function() {
@@ -111,6 +113,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 				controlPoint3Y.attr("value", selectedObject.p2[1]);
 				controlPoint4X.attr("value", selectedObject.p3[0]);
 				controlPoint4Y.attr("value", selectedObject.p3[1]);
+				tickmarks.attr('checked', selectedObject.delegate.showTickmarks);
 			};
 
 			/*
@@ -274,6 +277,17 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var newValue = parseInt(controlPoint4Y.val());
 			console.log("new cP3 y value: " + newValue);
 			selectedObject.p3[1] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		tickmarks.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			if(selectedObject instanceof ParametricCurve) {
+				selectedObject.showTickmarks = tickmarks.is(':checked');
+			}
+			if(selectedObject instanceof BezierCurve) {
+				selectedObject.delegate.showTickmarks = tickmarks.is(':checked');
+			}
 			sceneController.select(selectedObject);
 		});
 
