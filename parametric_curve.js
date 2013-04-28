@@ -8,28 +8,24 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 
 	var ParametricCurve = function(lineStyle) {
 		console.log("creating ParametricCurve.");
+		/* Initial values */
 		this.tMin = 0;
 		this.tMax = 2 * Math.PI;
 		this.segments = 20;
-		this.lineStyle = lineStyle || { width : "2", color : "#0000AA" };
+		this.lineStyle = lineStyle || { width : "2", color : "#0000AA"
+		};
 		this.xFunctionString = "350 + 100 * Math.sin(t)";
 		this.yFunctionString = "150 + 100 * Math.cos(t)";
+		this.xFunction = this.Func(this.xFunctionString);
+		this.yFunction = this.Func(this.yFunctionString);
+		// console.log("init xFunction: " + this.xFunction.toString());
+		// console.log("init yFunction: " + this.yFunction.toString());
 	};
-	
-	 ParametricCurve.prototype.Func = function(functionString, t) {
-			try{
-				return eval(functionString);
-			}
-			catch(exc){
-				alert("Cannot evaluate function expression " + functionString);
-				console.log("An exception occured: " + exc);
-			}
-	    };
 
 	ParametricCurve.prototype.draw = function(context) {
 		console.log("drawing ParametricCurve.");
-		console.log("xFunctionString: " + this.xFunctionString);
-		console.log("yFunctionString: " + this.yFunctionString);
+		console.log("xFunction: " + this.xFunction.toString());
+		console.log("yFunction: " + this.yFunction.toString());
 		// interval length [tMin, tMax]
 		var intervalLength = Math.abs(this.tMin - this.tMax);
 		// increment of t, "length" of segment
@@ -37,12 +33,12 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		var points = [];
 		// calculate x, y for every point on curve
 		for ( var i = 0; i <= this.segments; i++) {
-			var xVal = this.Func(this.xFunctionString, i * delta + this.tMin);
-			var yVal = this.Func(this.yFunctionString, i * delta + this.tMin);
+			var xVal = this.xFunction(i * delta + this.tMin);
+			var yVal = this.yFunction(i * delta + this.tMin);
 			points[i] = [ xVal, yVal ];
-			console.log("calculated point: " + points[i]);
+			// console.log("calculated point: " + points[i]);
 		}
-		//console.log("Points on curve: " + points.length);
+		// console.log("Points on curve: " + points.length);
 		// draw curve on canvas
 		context.beginPath();
 		// init start point
@@ -59,8 +55,8 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 	ParametricCurve.prototype.isHit = function(context, position) {
 		var delta = Math.abs(this.tMin - this.tMax) / this.segments;
 		for ( var i = 0; i <= this.segments; i++) {
-			var point0 = [ this.Func(this.xFunctionString, i * delta + this.tMin), this.Func(this.yFunctionString, i * delta + this.tMin)];
-			var point1 = [ this.Func(this.xFunctionString, (i + 1) * delta + this.tMin), this.Func(this.yFunctionString, (i + 1) * delta + this.tMin) ];
+			var point0 = [ this.xFunction(i * delta + this.tMin), this.yFunction(i * delta + this.tMin) ];
+			var point1 = [ this.xFunction((i + 1) * delta + this.tMin), this.yFunction((i + 1) * delta + this.tMin) ];
 			/*
 			 * TAKEN FROM STAIGHT LINE
 			 */
@@ -78,6 +74,33 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 			return d <= (this.lineStyle.width / 2) + tolerance;
 		}
 		return false;
+	};
+
+	ParametricCurve.prototype.Func = function(functionString) {
+		var result = eval("(function(t) { return " + functionString + ";});");
+		return result;
+
+	};
+
+	ParametricCurve.prototype.XFunction = function(xFunctionString) {
+		try {
+			this.xFunction = this.Func(xFunctionString);
+			this.xFunctionString = xFunctionString;
+		} catch (exc) {
+			console.log("unable to create xFunction: " + exc.message);
+			alert("Invalid xFunction expression");
+		}
+	};
+
+	ParametricCurve.prototype.YFunction = function(yFunctionString) {
+		try {
+			this.yFunction = this.Func(yFunctionString);
+			this.yFunctionString = yFunctionString;
+
+		} catch (exc) {
+			console.log("unable to create yFunction: " + exc.message);
+			alert("Invalid yFunction expression");
+		}
 	};
 
 	ParametricCurve.prototype.createDraggers = function() {

@@ -171,7 +171,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var selectedObject = sceneController.getSelectedObject();
 			var newXFunc = xFunction.attr("value");
 			console.log("new xFunction value: " + newXFunc);
-			selectedObject.xFunctionString = newXFunc;
+			selectedObject.XFunction(newXFunc);
 			sceneController.select(selectedObject);
 
 		});
@@ -181,7 +181,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var selectedObject = sceneController.getSelectedObject();
 			var newYFunc = yFunction.attr("value");
 			console.log("new yFunction value: " + newYFunc);
-			selectedObject.yFunctionString = newYFunc;
+			selectedObject.YFunction(newYFunc);
 			sceneController.select(selectedObject);
 			
 		});
