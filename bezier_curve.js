@@ -2,7 +2,7 @@
  * 
  */
 /* requireJS module definition */
-define([ "util", "vec2", "scene", "point_dragger", "parametric_curve" ], (function(Util, vec2, Scene, PointDragger, ParametricCurve) {
+define([ "util", "vec2", "scene", "point_dragger", "parametric_curve", "controlpolygon_dragger"], (function(Util, vec2, Scene, PointDragger, ParametricCurve, ControlPolygonDragger) {
 
 	"use strict";
 
@@ -72,7 +72,10 @@ define([ "util", "vec2", "scene", "point_dragger", "parametric_curve" ], (functi
         draggers.push(new PointDragger(getP1, setP1, draggerStyle));
         draggers.push(new PointDragger(getP2, setP2, draggerStyle));
         draggers.push(new PointDragger(getP3, setP3, draggerStyle));
-        
+        draggers.push(new ControlPolygonDragger(getP0, setP0, getP1, draggerStyle));
+        draggers.push(new ControlPolygonDragger(getP1, setP1, getP2, draggerStyle));
+        draggers.push(new ControlPolygonDragger(getP2, setP2, getP3, draggerStyle));
+
 		return draggers;
 
 	};
