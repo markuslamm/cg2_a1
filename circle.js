@@ -51,12 +51,23 @@ define(["util", "vec2", "scene", "point_dragger"],
     Circle.prototype.createDraggers = function() {
     	 var draggerStyle = { radius:4, color: this.lineStyle.color, width:0, fill:true }
          var draggers = [];
-    	 
+    	// create closure and callbacks for dragger    	 
     	 var _circle = this;
+    	 /*
+    	  * position dragging
+    	  */
     	 var getCenter = function() { return _circle.center; };
     	 var setCenter = function(dragEvent) {_circle.center = dragEvent.position };
+    	 
+    	 /*
+    	  * radius dragging
+    	  */
+    	 var getRadiusPoint1 = function() { return [(_circle.center[0] + _circle.radius), _circle.center[1]]; };
+         var setRadius = function(dragEvent) { _circle.radius = Math.abs(dragEvent.position[0] - _circle.center[0]);};
     	
     	 draggers.push(new PointDragger(getCenter, setCenter, draggerStyle));
+    	 draggers.push(new PointDragger(getRadiusPoint1, setRadius, draggerStyle));
+    	 
     	 return draggers;
         
     };

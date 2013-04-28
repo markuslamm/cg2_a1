@@ -15,8 +15,7 @@ define([ "util", "vec2", "scene", "point_dragger", "parametric_curve", "controlp
         this.p3 = p3;
 		this.lineStyle = lineStyle;
 		this.tMin = 0;
-		this.tMax = 1;
-		this.segments = 20;		
+		this.tMax = 1;		
 		this.xFunctionString = this.makeBernsteinFunction(this.p0[0], this.p1[0], this.p2[0], this.p3[0]);
 		this.yFunctionString = this.makeBernsteinFunction(this.p0[1], this.p1[1], this.p2[1], this.p3[1]);
 		/*

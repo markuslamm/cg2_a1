@@ -139,6 +139,8 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			}
 		};
 		sceneController.onSelection(onSelectionCallback);
+		sceneController.onObjChange(onSelectionCallback);
+		
 
 		/*
 		 * input change listener
@@ -334,6 +336,11 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var p1 = [ randomX(), randomY() ];
 			var p2 = [ randomX(), randomY() ];
 			var p3 = [ randomX(), randomY() ];
+			
+//			var p0 = [ 50, 300 ];
+//			var p1 = [ 200, 50 ];
+//			var p2 = [ 350, 250 ];
+//			var p3 = [ 500, 300 ];
 
 			var bezierCurve = new BezierCurve(p0, p1, p2, p3, style);
 			scene.addObjects([bezierCurve]);

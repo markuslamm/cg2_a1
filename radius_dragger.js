@@ -28,12 +28,10 @@ define(["util", "scene"],
      * 
      */
 
-    var ControlPolygonDragger = function(getPos, setPos, targetPoint, drawStyle) {
-
+    var RadiusDragger = function(getPos, setPos, drawStyle) {
         // remember the callbacks
         this.getPos = getPos;
         this.setPos = setPos;
-        this.targetPoint = targetPoint;
         
         // default draw style
         this.drawStyle = drawStyle || { 
@@ -43,28 +41,23 @@ define(["util", "scene"],
             fill: false 
         };
         // attribute queried by SceneController to recognize draggers
-        this.isDragger = false; 
-                                        
+        this.isDragger = false;                                  
     };
 
     /*
      * draw the dragger as a small circle
      */
-    ControlPolygonDragger.prototype.draw = function (context) {
+    RadiusDragger.prototype.draw = function (context) {
     	 // what is my current position?
         var pos = this.getPos();
 
         // what shape to draw
         context.beginPath();
-//        context.arc(pos[0], pos[1], // position
-//                    this.drawStyle.radius,    // radius
-//                    0.0, Math.PI*2,           // start and end angle
-//                    true);                    // clockwise
-        
-        if(this.targetPoint){
-            context.moveTo(this.getPos()[0], this.getPos()[1]);
-            context.lineTo(this.targetPoint()[0], this.targetPoint()[1]);
-        };
+        context.arc(pos[0], pos[1], // position
+                    this.drawStyle.radius,    // radius
+                    0.0, Math.PI*2,           // start and end angle
+                    true);                    // clockwise
+       
         
         context.closePath();
         
