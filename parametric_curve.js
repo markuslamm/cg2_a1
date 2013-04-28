@@ -18,14 +18,11 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		this.yFunctionString = "150 + 100 * Math.cos(t)";
 		this.xFunction = this.Func(this.xFunctionString);
 		this.yFunction = this.Func(this.yFunctionString);
-		// console.log("init xFunction: " + this.xFunction.toString());
-		// console.log("init yFunction: " + this.yFunction.toString());
 	};
 
 	ParametricCurve.prototype.draw = function(context) {
-		console.log("drawing ParametricCurve.");
-		console.log("xFunction: " + this.xFunction.toString());
-		console.log("yFunction: " + this.yFunction.toString());
+		// console.log("xFunction: " + this.xFunction.toString());
+		// console.log("yFunction: " + this.yFunction.toString());
 		// interval length [tMin, tMax]
 		var intervalLength = Math.abs(this.tMin - this.tMax);
 		// increment of t, "length" of segment
@@ -54,6 +51,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 
 	ParametricCurve.prototype.isHit = function(context, position) {
 		var delta = Math.abs(this.tMin - this.tMax) / this.segments;
+		var hit = false;
 		for ( var i = 0; i <= this.segments; i++) {
 			var point0 = [ this.xFunction(i * delta + this.tMin), this.yFunction(i * delta + this.tMin) ];
 			var point1 = [ this.xFunction((i + 1) * delta + this.tMin), this.yFunction((i + 1) * delta + this.tMin) ];
@@ -71,9 +69,12 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 			var d = vec2.length(vec2.sub(p, position));
 			// allow 2 pixels extra "sensitivity"
 			var tolerance = 3;
-			return d <= (this.lineStyle.width / 2) + tolerance;
+			if (d <= (this.lineStyle.width / 2) + tolerance) {
+				hit = true;
+			}
 		}
-		return false;
+		console.log("ParametricCurve isHit(): " + hit);
+		return hit;
 	};
 
 	ParametricCurve.prototype.Func = function(functionString) {
@@ -82,7 +83,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 
 	};
 
-	ParametricCurve.prototype.XFunction = function(xFunctionString) {
+	ParametricCurve.prototype.evalXFunction = function(xFunctionString) {
 		try {
 			this.xFunction = this.Func(xFunctionString);
 			this.xFunctionString = xFunctionString;
@@ -92,7 +93,7 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 		}
 	};
 
-	ParametricCurve.prototype.YFunction = function(yFunctionString) {
+	ParametricCurve.prototype.evalYFunction = function(yFunctionString) {
 		try {
 			this.yFunction = this.Func(yFunctionString);
 			this.yFunctionString = yFunctionString;

@@ -35,10 +35,10 @@ define([ "util", "vec2", "scene", "point_dragger", "parametric_curve" ], (functi
 
 	BezierCurve.prototype.draw = function(context) {
 		console.log("BezierCurve.prototype.draw()");
-		console.log("cP1X: " + this.p0[0] + ", cP1Y: " + this.p0[1]);
-		console.log("cP2X: " + this.p1[0] + ", cP2Y: " + this.p1[1]);
-		console.log("cP3X: " + this.p2[0] + ", cP3Y: " + this.p2[1]);
-		console.log("cP4X: " + this.p3[0] + ", cP4Y: " + this.p3[1]);
+//		console.log("cP1X: " + this.p0[0] + ", cP1Y: " + this.p0[1]);
+//		console.log("cP2X: " + this.p1[0] + ", cP2Y: " + this.p1[1]);
+//		console.log("cP3X: " + this.p2[0] + ", cP3Y: " + this.p2[1]);
+//		console.log("cP4X: " + this.p3[0] + ", cP4Y: " + this.p3[1]);
 		this.xFunctionString = this.makeBernsteinFunction(this.p0[0], this.p1[0], this.p2[0], this.p3[0]);
 		this.yFunctionString = this.makeBernsteinFunction(this.p0[1], this.p1[1], this.p2[1], this.p3[1]);
 		console.log("xFunction: " + this.xFunctionString);
@@ -49,11 +49,30 @@ define([ "util", "vec2", "scene", "point_dragger", "parametric_curve" ], (functi
 	};
 
 	BezierCurve.prototype.isHit = function(context, position) {
-		console.log("BezierCurve.prototype.isHit()");
+		var hit = this.delegate.isHit(context, position);
+		console.log("BezierCurve isHit(): " + hit);
+		return hit;
 	};
 
 	BezierCurve.prototype.createDraggers = function() {
-		var draggers = [];
+		var draggerStyle = { radius:4, color: this.lineStyle.color, width:0, fill:true }
+        var draggers = [];
+		
+		// create closure and callbacks for dragger
+        var _bezierCurve = this;
+        var getP0 = function() { return _bezierCurve.p0; };
+        var getP1 = function() { return _bezierCurve.p1; };
+        var getP2 = function() { return _bezierCurve.p2; };
+        var getP3 = function() { return _bezierCurve.p3; };
+        var setP0 = function(dragEvent) { _bezierCurve.p0 = dragEvent.position; };
+        var setP1 = function(dragEvent) { _bezierCurve.p1 = dragEvent.position; };
+        var setP2 = function(dragEvent) { _bezierCurve.p2 = dragEvent.position; };
+        var setP3 = function(dragEvent) { _bezierCurve.p3 = dragEvent.position; };
+        draggers.push(new PointDragger(getP0, setP0, draggerStyle));
+        draggers.push(new PointDragger(getP1, setP1, draggerStyle));
+        draggers.push(new PointDragger(getP2, setP2, draggerStyle));
+        draggers.push(new PointDragger(getP3, setP3, draggerStyle));
+        
 		return draggers;
 
 	};

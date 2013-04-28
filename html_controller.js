@@ -171,7 +171,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var selectedObject = sceneController.getSelectedObject();
 			var newXFunc = xFunction.attr("value");
 			console.log("new xFunction value: " + newXFunc);
-			selectedObject.XFunction(newXFunc);
+			selectedObject.evalXFunction(newXFunc);
 			sceneController.select(selectedObject);
 
 		});
@@ -181,7 +181,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			var selectedObject = sceneController.getSelectedObject();
 			var newYFunc = yFunction.attr("value");
 			console.log("new yFunction value: " + newYFunc);
-			selectedObject.YFunction(newYFunc);
+			selectedObject.evalYFunction(newYFunc);
 			sceneController.select(selectedObject);
 			
 		});
@@ -209,6 +209,72 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			selectedObject.segments = newValue;
 			sceneController.select(selectedObject);
 		});
+		
+		controlPoint1X.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint1X.val());
+			console.log("new cP0 x value: " + newValue);
+			selectedObject.p0[0] = newValue;
+			sceneController.deselect();
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint1Y.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint1Y.val());
+			console.log("new cP0 y value: " + newValue);
+			selectedObject.p0[1] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint2X.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint2X.val());
+			console.log("new cP1 x value: " + newValue);
+			selectedObject.p1[0] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint2Y.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint2Y.val());
+			console.log("new cP1 y value: " + newValue);
+			selectedObject.p1[1] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint3X.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint3X.val());
+			console.log("new cP2 x value: " + newValue);
+			selectedObject.p2[0] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint3Y.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint3Y.val());
+			console.log("new cP2 y value: " + newValue);
+			selectedObject.p2[1] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint4X.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint4X.val());
+			console.log("new cP3 x value: " + newValue);
+			selectedObject.p3[0] = newValue;
+			sceneController.select(selectedObject);
+		});
+		
+		controlPoint4Y.change(function() {
+			var selectedObject = sceneController.getSelectedObject();
+			var newValue = parseInt(controlPoint4Y.val());
+			console.log("new cP3 y value: " + newValue);
+			selectedObject.p3[1] = newValue;
+			sceneController.select(selectedObject);
+		});
+
 
 		/*
 		 * 
@@ -264,14 +330,12 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 			// initial values
 			var style = { width : Math.floor(Math.random() * 3) + 1, color : randomColor()
 			};
-			var controlPoint1 = [ randomX(), randomY() ];
-			var controlPoint2 = [ randomX(), randomY() ];
-			var controlPoint3 = [ randomX(), randomY() ];
-			var controlPoint4 = [ randomX(), randomY() ];
-			
-			var controlPoints = [controlPoint1, controlPoint2, controlPoint3, controlPoint4];
+			var p0 = [ randomX(), randomY() ];
+			var p1 = [ randomX(), randomY() ];
+			var p2 = [ randomX(), randomY() ];
+			var p3 = [ randomX(), randomY() ];
 
-			var bezierCurve = new BezierCurve(controlPoints, style);
+			var bezierCurve = new BezierCurve(p0, p1, p2, p3, style);
 			scene.addObjects([bezierCurve]);
 			sceneController.deselect();
 			sceneController.select(bezierCurve);
