@@ -113,7 +113,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 				controlPoint3Y.attr("value", selectedObject.p2[1]);
 				controlPoint4X.attr("value", selectedObject.p3[0]);
 				controlPoint4Y.attr("value", selectedObject.p3[1]);
-				tickmarks.attr('checked', selectedObject.delegate.showTickmarks);
+				//tickmarks.attr('checked', selectedObject.delegate.showTickmarks);
 			};
 
 			/*
@@ -166,7 +166,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 
 		radius.change(function() {
 			var selectedObject = sceneController.getSelectedObject();
-			var newRadius = radius.attr("value");
+			var newRadius = parseInt(radius.attr("value"));
 			console.log("new radius value: " + newRadius);
 			selectedObject.radius = newRadius;
 			sceneController.select(selectedObject);
@@ -282,12 +282,7 @@ define([ "jquery", "straight_line", "circle", "parametric_curve", "bezier_curve"
 		
 		tickmarks.change(function() {
 			var selectedObject = sceneController.getSelectedObject();
-			if(selectedObject instanceof ParametricCurve) {
-				selectedObject.showTickmarks = tickmarks.is(':checked');
-			}
-			if(selectedObject instanceof BezierCurve) {
-				selectedObject.delegate.showTickmarks = tickmarks.is(':checked');
-			}
+			selectedObject.showTickmarks = tickmarks.is(':checked');
 			sceneController.select(selectedObject);
 		});
 

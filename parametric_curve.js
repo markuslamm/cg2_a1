@@ -50,15 +50,15 @@ define([ "util", "vec2", "scene" ], (function(Util, vec2, Scene, PointDragger) {
 			/* draw tickmarks on curve */
 			context.beginPath();
 			for (var i = 1; i < this.segments; i++) {
-				var tang =  vec2.sub(points[(i+1)], points[(i-1)]) ;
-				var tangNorm = [tang[1] * (-1), tang[0]];
+				var tangent =  vec2.sub(points[(i+1)], points[(i-1)]) ;
+				var tangNorm = [-tangent[1], tangent[0]];
 
 				var normalizedVecN = vec2.mult(tangNorm, (1 / vec2.length(tangNorm)));
-				var pTick0 =  vec2.add(points[i], vec2.mult(normalizedVecN, 10));
-				var pTick1 =  vec2.sub(points[i], vec2.mult(normalizedVecN, 10));
+				var tickPoint0 =  vec2.add(points[i], vec2.mult(normalizedVecN, 10));
+				var tickPoint1 =  vec2.sub(points[i], vec2.mult(normalizedVecN, 10));
 
-				context.moveTo(pTick0[0],pTick0[1]);
-				context.lineTo(pTick1[0],pTick1[1]);
+				context.moveTo(tickPoint0[0],tickPoint0[1]);
+				context.lineTo(tickPoint1[0],tickPoint1[1]);
 //				var vecTangent =  vec2.sub(points[(i+1)], points[(i-1)]) ;
 //				var vecNorm = [-vecTangent[1], vecTangent[0]];
 //				var vecNormalized = vec2.mult(vecNorm, (1 / vec2.length(vecNorm)));

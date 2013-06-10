@@ -39,10 +39,6 @@ define([ "util", "vec2", "scene", "point_dragger", "parametric_curve", "controlp
 
 	BezierCurve.prototype.draw = function(context) {
 		console.log("BezierCurve.prototype.draw()");
-//		console.log("cP1X: " + this.p0[0] + ", cP1Y: " + this.p0[1]);
-//		console.log("cP2X: " + this.p1[0] + ", cP2Y: " + this.p1[1]);
-//		console.log("cP3X: " + this.p2[0] + ", cP3Y: " + this.p2[1]);
-//		console.log("cP4X: " + this.p3[0] + ", cP4Y: " + this.p3[1]);
 		this.xFunctionString = this.makeBernsteinFunction(this.p0[0], this.p1[0], this.p2[0], this.p3[0]);
 		this.yFunctionString = this.makeBernsteinFunction(this.p0[1], this.p1[1], this.p2[1], this.p3[1]);
 		console.log("xFunction: " + this.xFunctionString);
